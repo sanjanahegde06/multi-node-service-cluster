@@ -1,33 +1,25 @@
 #!/bin/bash
 
-echo "===== CLUSTER STATUS ====="
+echo "===== MULTI NODE CLUSTER STATUS ====="
+echo ""
+
+echo -n "Service A: "
+curl -s http://192.168.232.128:8000 > /dev/null && echo "UP" || echo "DOWN"
+
+echo -n "Service B: "
+curl -s http://192.168.232.129:8001 > /dev/null && echo "UP" || echo "DOWN"
+
+echo -n "Node Exporter VM1: "
+curl -s http://192.168.232.128:9100/metrics > /dev/null && echo "UP" || echo "DOWN"
+
+echo -n "Node Exporter VM2: "
+curl -s http://192.168.232.129:9100/metrics > /dev/null && echo "UP" || echo "DOWN"
+
+echo -n "Prometheus: "
+curl -s http://192.168.232.129:9090 > /dev/null && echo "UP" || echo "DOWN"
+
+echo -n "Grafana: "
+curl -s http://192.168.232.129:3000 > /dev/null && echo "UP" || echo "DOWN"
 
 echo ""
-echo "VM1 ServiceA:"
-curl -s http://192.168.232.128:8000
-
-echo ""
-echo "VM2 ServiceB:"
-curl -s http://192.168.232.129:8001
-
-echo ""
-echo "VM1 Node Exporter:"
-curl -s http://192.168.232.128:9100/metrics > /dev/null
-
-if [ $? -eq 0 ]
-then
-    echo "UP"
-else
-    echo "DOWN"
-fi
-
-echo ""
-echo "VM2 Node Exporter:"
-curl -s http://192.168.232.129:9100/metrics > /dev/null
-
-if [ $? -eq 0 ]
-then
-    echo "UP"
-else
-    echo "DOWN"
-fi
+echo "Cluster Check Complete"
